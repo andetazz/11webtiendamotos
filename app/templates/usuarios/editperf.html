@@ -103,15 +103,6 @@
                 <input type="file" id="img1" name="img1" class="form-control" accept="image/*">
             </div>
 
-            <div class="mb-4">
-                <label for="tipousu" class="form-label">Tipo de Usuario:</label>
-                <select id="tipousu" name="tipousu" class="form-select">
-                    <option value=1 {% if datauser.tipousu==1 %} selected {%endif%}>Administrador</option>
-                    <option value=2 {% if datauser.tipousu==2 %} selected {%endif%}>Cliente</option>
-                    <option value=3 {% if datauser.tipousu==3 %} selected {%endif%}>Proveedor</option>
-                </select>
-            </div>
-
             <button class="btn btn-primary lex-fill btn-lg mb-3" type="submit">Actualizar Usuario</button>
             <a class="btn  btn-success lex-fill btn-lg mb-3" href="{{ url_for('auth.dashboard') }}">Cancelar</a>
         </form>

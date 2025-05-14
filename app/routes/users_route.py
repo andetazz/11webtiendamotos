@@ -13,7 +13,7 @@ def before_request():
     pass
 # Configuración para la subida de imágenes
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif','jfif','webp','bmp','ico'}
-UPLOAD_FOLDER = os.path.join(os.getcwd(), 'app', 'static\imagenes')  # Ruta absoluta
+UPLOAD_FOLDER = os.path.join(os.getcwd(), 'app', 'static\imagenes')  
 
 # Verificar que la carpeta existe, si no, crearla
 if not os.path.exists(UPLOAD_FOLDER):
