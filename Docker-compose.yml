@@ -5,6 +5,8 @@ services:
       context: "https://github.com/andetazz/11webtiendamotos.git"
       dockerfile: Dockerfile
     volumes:
-      - .:/app
+      - app-data:/app
+volumes:
+  app-data:
 
       
