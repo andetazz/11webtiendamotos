@@ -1,0 +1,92 @@
+{% extends "baseb.html" %}
+{% block titulo_pagina %}Lista general de Compras administrador{% endblock %}
+<style>
+  .modal-backdrop.show {
+      background-color: rgba(0, 123, 255, 0.3); /* Azul transparente */
+  }
+</style>
+{% block content %}
+<a class="btn btn-success btn-lg mb-3" href="{{ url_for('auth.dashboard') }}">Regresar</a>
+
+<div class="container mt-5">
+    <form method="post" enctype="multipart/form-data">
+
+      {% set ns = namespace(total_general=0) %}
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Imagen</th>
+                        <th>Nro Factura</th>
+                        <th>SubTotal</th>
+                        <th>Descuento</th>
+                        <th>Iva</th>
+                        <th>Total Compra</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                   
+                    </tr>
+                </thead>
+                <tbody>
+                {% for itemcarrito in data %}
+                    {% set ns.total_general = ns.total_general + itemcarrito.total %}
+                    <tr>
+                        <td>{{ itemcarrito.iduser }}</td>
+                        <td>
+                          {% if itemcarrito.ventas_d and itemcarrito.ventas_d[0].productos %}
+                          <img src="{{ url_for('static', filename='imagenes/' + itemcarrito.ventas_d[0].productos.get_img('img1')) }}"
+                               alt="{{ itemcarrito.ventas_d[0].productos.nombre }}" width="100" height="100" />
+                          {% else %}
+                              <p>Sin imagen</p>
+                          {% endif %}
+                        </td>
+                        <td>{{ itemcarrito.idventa }}</td>
+                        <td class="text-success fw-bold">${{ "{:,.0f}".format(itemcarrito.subtotal).replace(",", ".") }}</td>
+                        <td class="text-danger fw-bold">${{ "{:,.0f}".format(itemcarrito.descuento).replace(",", ".") }}</td>
+                        <td class="text-success fw-bold">${{ "{:,.0f}".format(itemcarrito.iva).replace(",", ".") }}</td>
+                        <td class="text-primary fw-bold">${{ "{:,.0f}".format(itemcarrito.total).replace(",", ".") }}</td>
+                        <td>
+                            <div class="mb-4">
+                                <select id="estadoventa" name="estadoventa" class="form-select">
+                                    <option value="1">Generada</option>
+                                    <option value="2">Paga</option>
+                                    <option value="3">Enviada</option>
+                                    <option value="4">Entregada</option>
+                                    <option value="5">En Garantia</option>
+                                    <option value="6">Finalizada</option>
+                                    <option value="7">Cancelada</option>
+                                </select>
+                            </div>
+                         </td>
+                        <td>
+                          
+                            <a href="{{ url_for('carrito.addestadocompra') }}" title="Guardar" class="btn btn-warning btn-custom-orange flex-fill mb-1">
+                              Guardar</a>
+                            <br>
+
+                            <a href="{{ url_for('carrito.imp_fact', id=itemcarrito.idventa) }}" title="Imprimir">
+                                <img src="{{ url_for('static', filename='iconos/imprimir.jpg') }}" alt="Imprimir" width="36" height="36">
+                              </a>
+                        </td>
+                        
+                        
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr class="table-secondary">
+                        <td colspan="5" class="text-end"><strong>Total General:</strong></td>
+                    <td colspan="2"><strong>${{ "{:,.0f}".format(ns.total_general).replace(",", ".") }}</strong></td>
+                  </tr>
+                </tfoot>
+            </table>
+        </div>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+{% endblock %}

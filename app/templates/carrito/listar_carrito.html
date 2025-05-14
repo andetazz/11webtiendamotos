@@ -1,0 +1,51 @@
+{% extends "baseb.html" %}
+{% block titulo_pagina %}Lista general de Productos en Carrito Admin{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <a class="btn btn-success btn-lg mb-3" href="{{ url_for('auth.dashboard') }}">Regresar</a>
+
+    <form action="{{ url_for('carrito.comprar') }}" method="post" enctype="multipart/form-data">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th>usuarios</th>
+                        <th>Imagen</th>
+                        <th>codigo</th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Subtotal</th>
+                        <th>Descuento</th>
+                        <th>IVA</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for itemcarrito in data %}
+                    <tr>
+                        <td>{{ itemcarrito.cantusu }}</td>
+                        <td>
+                            <img src="{{ url_for('static', filename='imagenes/' + itemcarrito.img1)  }}"
+                                alt="{{ itemcarrito.nompro}}" class="img-thumbnail" width="80" height="80" />
+                        </td>
+                        <td>{{ itemcarrito.idprod }}</td>
+                        <td>{{ itemcarrito.nompro }}</td>
+                        <td>{{ itemcarrito.cantidad }}</td>
+                        <td> ${{ "{:,.0f}".format(itemcarrito.precio ).replace(",", ".") }}</td>
+                        <td> ${{ "{:,.0f}".format(itemcarrito.subtotal ).replace(",", ".") }}</td>
+                        <td> ${{ "{:,.0f}".format(itemcarrito.descuento_aplicado ).replace(",", ".") }}</td>
+                        <td> ${{ "{:,.0f}".format(itemcarrito.iva_aplicado ).replace(",", ".") }}</td>
+                        <td> ${{ "{:,.0f}".format(itemcarrito.total_final ).replace(",", ".") }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="total">
+            <h3>Total General: {{ total_general }}</h3>
+        </div>
+   </form>
+</div>
+{% endblock %}
