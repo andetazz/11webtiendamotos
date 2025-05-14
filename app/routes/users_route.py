@@ -140,7 +140,6 @@ def editperf(id):
         user.cedula = request.form['cedula']
         user.telefono = request.form['telefono']
         user.correo = request.form['correo']
-        user.tipousu = request.form['tipousu']
         file = request.files['img1']
 
         #if file.filename == '':

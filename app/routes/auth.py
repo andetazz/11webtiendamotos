@@ -82,13 +82,17 @@ def add():
         nameuser = request.form['nameuser']
         clave = request.form['claveuser']
         tipousu = 2
-        new_user =  Users( passworduser=clave,nameuser= nameuser,tipousu=tipousu)
-        try:
-            db.session.add(new_user)
-            db.session.commit()
-            flash(f"✅ Registro Guardado: ")
-        except Exception as e:
-            flash(f"Error durante la Creacion del Usuario:  {str(e)}", "danger")
-            flash("Error en la base de datos add Usuarios")
-        return redirect(url_for('auth.login'))       
+        user = Users.query.filter_by(nameuser=nameuser).first()
+        if user:
+            flash(f"❌ Usuario ya Registado!!!")
+        else:
+            new_user =  Users( passworduser=clave,nameuser= nameuser,tipousu=tipousu)
+            try:
+                db.session.add(new_user)
+                db.session.commit()
+                flash(f"✅ Registro Guardado: ")
+            except Exception as e:
+                flash(f"Error durante la Creacion del Usuario:  {str(e)}", "danger")
+                flash("Error en la base de datos add Usuarios")
+            return redirect(url_for('auth.login'))       
     return render_template('/add.html')
