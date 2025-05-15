@@ -466,16 +466,13 @@ def generar_factura(datos_factura,datacli, dataventas_t, dataventas_d):
     header_data = [
         [
         Paragraph(
-            "<b>TALLER Y ALMACÉN DONDE EULISES</b><br/>NIT: 1101753808-9<br/>"
+            "<b>TIENDA VIRTUAL CoMpUmOtOs</b><br/>NIT: 1101753808-9<br/>"
             "ANDRES PEÑA VELASCO<br/>CARRERA 6 5 A 126<br/>Vélez Santander<br/>"
             "CEL: 304 582 2360<br/>EMAIL: andetazz87@gmail.com",
             estilo_subt),
         Paragraph(
             "<b>RÉGIMEN SIMPLIFICADO</b><br/>"
-            "Facturación por computador Res. DIAN No. 40000166098<br/>"
-            f"<b>Factura Nro:</b> <font color='red'>{dataventas_t.idventa}</font><br/>"
-            f"Fecha: {dataventas_t.fecha} &nbsp;&nbsp;&nbsp; Fecha Vto: {dataventas_t.f_vto}<br/>"
-            f"Observaciones: {dataventas_t.observacion}",
+            "Facturación por computador Res. DIAN No. 40000166098<br/>",
             estilo_subt)
         ]
     ]
@@ -488,7 +485,26 @@ def generar_factura(datos_factura,datacli, dataventas_t, dataventas_d):
     ]))
     story.append(header)
     story.append(Spacer(1, 12))
-
+      # 2. Datos Factura
+    fact_data = [
+        ['Factura Nro:',dataventas_t.idventa],
+        ['Fecha: ', dataventas_t.fecha],
+        ['Fecha Vto:', dataventas_t.f_vto],
+        ['Observaciones:', dataventas_t.observacion]
+    ]
+    fact_tbl = Table(fact_data, colWidths=[1.2*inch, 6*inch])
+    fact_tbl.setStyle(TableStyle([
+        ('BACKGROUND', (0,0), (0,-1), colors.darkgrey),
+        ('ALIGN', (0,0), (-1,-1), 'LEFT'),
+        ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
+        ('INNERGRID', (0,0), (-1,-1), 0.5, colors.black),
+        ('BOX', (0,0), (-1,-1), 1, colors.black),
+        ('FONTNAME', (0,0), (-1,-1), 'Helvetica',),
+        ('FONTSIZE', (0,0), (-1,-1), 10),
+    ]))
+    story.append(Paragraph("Datos Factura", estilo_subt))
+    story.append(fact_tbl)
+    story.append(Spacer(1, 12))
     # 2. Datos del cliente
     cli_data = [
         ['Señor(es):', datacli.nombre],
@@ -498,7 +514,7 @@ def generar_factura(datos_factura,datacli, dataventas_t, dataventas_d):
     ]
     cli_tbl = Table(cli_data, colWidths=[1.2*inch, 6*inch])
     cli_tbl.setStyle(TableStyle([
-        ('BACKGROUND', (0,0), (0,-1), colors.lightgrey),
+        ('BACKGROUND', (0,0), (0,-1), colors.lightgreen),
         ('ALIGN', (0,0), (-1,-1), 'LEFT'),
         ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
         ('INNERGRID', (0,0), (-1,-1), 0.5, colors.grey),
@@ -506,6 +522,7 @@ def generar_factura(datos_factura,datacli, dataventas_t, dataventas_d):
         ('FONTNAME', (0,0), (-1,-1), 'Helvetica',),
         ('FONTSIZE', (0,0), (-1,-1), 9),
     ]))
+    story.append(Paragraph("Datos Cliente", estilo_subt))
     story.append(cli_tbl)
     story.append(Spacer(1, 12))
 
@@ -526,7 +543,7 @@ def generar_factura(datos_factura,datacli, dataventas_t, dataventas_d):
         ])
     prod_tbl = Table(prod_data, colWidths=[3*inch, 0.8*inch, 1*inch, 1*inch, 0.8*inch, 1*inch])
     prod_tbl.setStyle(TableStyle([
-        ('BACKGROUND', (0,0), (-1,0), colors.darkblue),
+        ('BACKGROUND', (0,0), (-1,0), colors.darksalmon),
         ('TEXTCOLOR', (0,0), (-1,0), colors.whitesmoke),
         ('ALIGN', (1,1), (-1,-1), 'RIGHT'),
         ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
