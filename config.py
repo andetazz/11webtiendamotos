@@ -10,7 +10,7 @@ class Config:
     #SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://andy:871008@85.239.241.150:3306/tiendamotos'
     #SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://andy:871008@coolify2.isladigital.xyz:3311/tiendamotos'
     #SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://andy:871008@38.242.137.70:3311/tiendamotos'
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://andy:871008@isladigital.xyz:3333/andybd'
+    SQLALCHEMY_DATABASE_URI =  'mysql+pymysql://andy:871008@isladigital.xyz:3311/andybd'
     #SQLALCHEMY_DATABASE_URI = 'sqlite:///flaskdb.sqlite'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = secrets.token_urlsafe(24)
