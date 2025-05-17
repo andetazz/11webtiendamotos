@@ -13,7 +13,7 @@ class Config:
     SQLALCHEMY_DATABASE_URI =  'mysql+pymysql://andy:871008@isladigital.xyz:3311/andybd'
     #SQLALCHEMY_DATABASE_URI = 'sqlite:///flaskdb.sqlite'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SECRET_KEY = secrets.token_urlsafe(24)
-    WEASYPRINT_DLL_DIRECTORIES="C:\Program Files (x86)\GTK2-Runtime\bin"
+    SECRET_KEY = secrets.token_urlsafe(24) 
+    #WEASYPRINT_DLL_DIRECTORIES="C:\Program Files (x86)\GTK2-Runtime\bin"
     #pip install --no-index --find-links=librerias -r requirements.txt
     #pip install requests qrcode[pil] flask
