@@ -41,7 +41,8 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Nombre</th>
-                                <th>Clave</th>
+                                <th>Correo</th>
+                                <th>tipo usuario</th>
                                 <th>Imagen Perfil</th>
                                 <th>Acciones</th>
                             </tr>
@@ -51,7 +52,14 @@
                             <tr>
                                 <td>{{ usuario.iduser }}</td>
                                 <td>{{ usuario.nameuser }}</td>
-                                <td>{{ usuario.passworduser }}</td>
+                                <td>{{ usuario.correo }}</td>
+                                
+                                <td>  <select id="tipousu" name="tipousu" class="form-select"  disabled>
+                                        <option value=1 {% if usuario.tipousu==1 %} selected {%endif%}>Administrador</option>
+                                        <option value=2 {% if usuario.tipousu==2 %} selected {%endif%}>Cliente</option>
+                                        <option value=3 {% if usuario.tipousu==3 %} selected {%endif%}>Proveedor</option>
+                                    </select>
+                                </td> 
                                 <td>
                                     <img src="{{ url_for('static', filename='imagenes/' + usuario.get_img('imgper')) }}"
                                         alt="Imagen del Usuario" class="img-thumbnail"

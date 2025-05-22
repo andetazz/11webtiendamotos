@@ -4,7 +4,7 @@ from flask_login import login_required,current_user
 from werkzeug.utils import secure_filename
 from app.models.users import Users
 from app import db  # Importamos `app` para acceder a la configuración
-
+from werkzeug.security import check_password_hash, generate_password_hash
 
 bp = Blueprint('users', __name__)
 @bp.before_request
@@ -141,6 +141,20 @@ def editperf(id):
         user.telefono = request.form['telefono']
         user.correo = request.form['correo']
         file = request.files['img1']
+        # Proceso de cambio de contraseña solo si se llena nueva contraseña
+        nueva_pass = request.form.get('nueva_password')
+        confirmar_nueva_pass = request.form.get('confirmar_nueva_password')
+        actual_pass = request.form.get('password_actual')
+
+        if nueva_pass and confirmar_nueva_pass:
+            if not check_password_hash(user.passworduser, actual_pass):
+                flash("❌ La contraseña actual no es correcta.", "danger")
+                return redirect(request.url)
+            if nueva_pass != confirmar_nueva_pass:
+                flash("❌ Las nuevas contraseñas no coinciden.", "danger")
+                return redirect(request.url)
+            # Guardar la nueva contraseña hasheada
+            user.passworduser = generate_password_hash(nueva_pass)
 
         #if file.filename == '':
             #flash("⚠ No se seleccionó ninguna imagen", "error")

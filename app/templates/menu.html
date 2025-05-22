@@ -148,39 +148,39 @@
             <ul class="navbar-nav me-auto">
                 <!-- tipousu = administrador -->
                 {% if datausu.tipousu == 1 %}
-                <!-- Usuarios -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle btn btn-primary" href="#" id="navbarUsuarios" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-people-fill"></i> Usuarios
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarUsuarios">
-                        <li><a class="dropdown-item" href="{{ url_for('users.index') }}">Listado</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('users.add') }}">Agregar</a></li>
-                    </ul>
-                </li>
-                <!-- Categorías -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle btn btn-primary" href="#" id="navbarCategorias" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-tags-fill"></i> Categorías
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarCategorias">
-                        <li><a class="dropdown-item" href="{{ url_for('categorias.index') }}">Listado</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('categorias.add') }}">Agregar</a></li>
-                    </ul>
-                </li>
-                <!-- Productos -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle btn btn-primary" href="#" id="navbarProductos" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-box-seam"></i> Productos
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarProductos">
-                        <li><a class="dropdown-item" href="{{ url_for('productos.index') }}">Listado</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('productos.add') }}">Agregar</a></li>
-                    </ul>
-                </li>
+                    <!-- Usuarios -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle btn btn-primary" href="#" id="navbarUsuarios" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-people-fill"></i> Usuarios
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarUsuarios">
+                            <li><a class="dropdown-item" href="{{ url_for('users.index') }}">Listado</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('users.add') }}">Agregar</a></li>
+                        </ul>
+                    </li>
+                    <!-- Categorías -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle btn btn-primary" href="#" id="navbarCategorias" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-tags-fill"></i> Categorías
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarCategorias">
+                            <li><a class="dropdown-item" href="{{ url_for('categorias.index') }}">Listado</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('categorias.add') }}">Agregar</a></li>
+                        </ul>
+                    </li>
+                    <!-- Productos -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle btn btn-primary" href="#" id="navbarProductos" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-box-seam"></i> Productos
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarProductos">
+                            <li><a class="dropdown-item" href="{{ url_for('productos.index') }}">Listado</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('productos.add') }}">Agregar</a></li>
+                        </ul>
+                    </li>
                     <!-- Carrito -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle btn btn-primary" href="#" id="navbarcarrito" role="button"
@@ -216,31 +216,70 @@
                         </ul>
                     </li>
                 {% endif %}
+                <!-- tipousu = Cliente -->
                 {% if datausu.tipousu == 2 %}
-                <!-- Carrito -->
-                <li class="nav-item position-relative">
-                    <a class="nav-link btn btn-primary carrito position-relative"
-                        href="{{ url_for('carrito.listarcarrito') }}">
-                        <div class="position-relative d-inline-block">
-                            <i class="bi bi-cart-fill"></i>
-                            {% if cantidad_items_carrito > 0 %}
-                            <span id="contadorCarrito"
-                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                {{ cantidad_items_carrito or 0 }}
-                                <span class="visually-hidden">productos en carrito</span>
-                            </span>
-                            {% endif %}
-                        </div>
-                        Carrito
-                    </a>
-                </li>
-                <!-- Compras Realizadas -->
-                <li class="nav-item">
-                    <a class="nav-link btn btn-primary" href="{{ url_for('carrito.vercompras') }}">
-                        <i class="bi bi-bag-check-fill"></i> Compras Realizadas
-                    </a>
-                </li>
+                    <!-- Carrito -->
+                    <li class="nav-item position-relative">
+                        <a class="nav-link btn btn-primary carrito position-relative"
+                            href="{{ url_for('carrito.listarcarrito') }}">
+                            <div class="position-relative d-inline-block">
+                                <i class="bi bi-cart-fill"></i>
+                                {% if cantidad_items_carrito > 0 %}
+                                <span id="contadorCarrito"
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{ cantidad_items_carrito or 0 }}
+                                    <span class="visually-hidden">productos en carrito</span>
+                                </span>
+                                {% endif %}
+                            </div>
+                            Carrito
+                        </a>
+                    </li>
+                    <!-- Compras Realizadas -->
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary" href="{{ url_for('carrito.vercompras') }}">
+                            <i class="bi bi-bag-check-fill"></i> Compras Realizadas
+                        </a>
+                    </li>
                 {% endif %}
+                <!-- tipousu = Proveedor -->
+                {% if datausu.tipousu == 3 %}
+                     <!-- Productos -->
+                     <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle btn btn-primary" href="#" id="navbarProductos" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-box-seam"></i> Productos
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarProductos">
+                            <li><a class="dropdown-item" href="{{ url_for('productos.index') }}">Listado</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('productos.add') }}">Agregar</a></li>
+                        </ul>
+                    </li>
+                    <!-- Carrito -->
+                    <li class="nav-item position-relative">
+                        <a class="nav-link btn btn-primary carrito position-relative"
+                            href="{{ url_for('carrito.listarcarrito') }}">
+                            <div class="position-relative d-inline-block">
+                                <i class="bi bi-cart-fill"></i>
+                                {% if cantidad_items_carrito > 0 %}
+                                <span id="contadorCarrito"
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{ cantidad_items_carrito or 0 }}
+                                    <span class="visually-hidden">productos en carrito</span>
+                                </span>
+                                {% endif %}
+                            </div>
+                            Carrito
+                        </a>
+                    </li>
+                    <!-- Compras Realizadas -->
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary" href="{{ url_for('carrito.vercompras') }}">
+                            <i class="bi bi-bag-check-fill"></i> Compras Realizadas
+                        </a>
+                    </li>
+                {% endif %}
+
                 <!-- Acerca de -->
             <li class="nav-item">
                 <a class="nav-link btn btn-primary" href="https://web.facebook.com/AnDyIPTComputell/">
@@ -262,8 +301,11 @@
                         class="rounded-circle me-2" width="50" height="50">
                 </a>
                 {% endif %}
-
-                <span class="text-white me-3">Usuario: {{ datausu.nameuser }}</span>
+                {% if datausu.nombre %}
+                    <span class="text-white me-3">Usuario: {{ datausu.nombre }} / {{ datausu.nameuser }}</span>
+                {% else %}
+                    <span class="text-white me-3">Usuario: {{ datausu.nameuser }}</span>
+                {% endif %}
                 <a href="{{ url_for('auth.logout') }}" class="btn btn-danger btn-danger">
                     <i class="bi bi-box-arrow-right"></i> Cerrar sesión
                 </a>

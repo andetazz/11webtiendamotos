@@ -5,6 +5,8 @@ from app.models.productos import Productos
 from app.models.categorias import Categorias
 from app.models.carrito import Carrito
 from app import db
+from werkzeug.security import check_password_hash
+from werkzeug.security import generate_password_hash
 bp = Blueprint('auth', __name__)
 
 
@@ -38,15 +40,14 @@ def login():
     if request.method == 'POST':
         nameuser = request.form['nameuser']
         passworduser = request.form['passworduser']
-        
-        user = Users.query.filter_by(nameuser=nameuser, passworduser=passworduser).first()
+        user = Users.query.filter_by(nameuser=nameuser).first()
 
-        if user:
+        if user and check_password_hash(user.passworduser, passworduser):
             login_user(user)
             flash("logeado satisfactoriamente", "success")
             return redirect(url_for('auth.dashboard'))
         
-        flash('Invalida el usuario o contraseña . Por favor intente nuevamente.', 'danger')
+        flash('Invalido el usuario o contraseña . Por favor intente nuevamente.', 'danger')
     
     if current_user.is_authenticated:
         return redirect(url_for('auth.dashboard'))
@@ -86,7 +87,10 @@ def add():
         if user:
             flash(f"❌ Usuario ya Registado!!!")
         else:
-            new_user =  Users( passworduser=clave,nameuser= nameuser,tipousu=tipousu)
+            
+            # Hashear la contraseña antes de guardar
+            hashed_password = generate_password_hash(clave)
+            new_user =  Users( passworduser=hashed_password,nameuser= nameuser,tipousu=tipousu)
             try:
                 db.session.add(new_user)
                 db.session.commit()

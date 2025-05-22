@@ -77,6 +77,38 @@ def add(id):
     return render_template('carrito/addcarrito.html', dataPro= dataPro,dataexit=dataexit,imagenes=imagenes_validas)
 
 
+# ver producto
+@bp.route('/carrito/ver_prod/<int:id>', methods=['GET', 'POST'])
+@login_required
+def ver_prod(id):
+    dataPro = Productos.query.get_or_404(id)
+    iduser= current_user.iduser
+    dataexit = Carrito.query.filter_by(idproducto=id,iduser= iduser).first()
+    imagenes_validas = []
+    for i in range(1, 5):
+        img = getattr(dataPro, f'img{i}')
+        if img and img != 'productos.png':
+            imagenes_validas.append(img)
+
+
+    if request.method == 'POST':
+
+        idproducto= request.form['idproducto']
+        cantidad = request.form['cantidad']
+        print(dataexit)
+        if dataexit:
+            dataexit.cantidad = cantidad
+        else:
+            new_carrito = Carrito(idproducto=idproducto, iduser=iduser, cantidad=cantidad)
+            db.session.add(new_carrito)
+
+        db.session.commit()
+        return jsonify({'success': True, 'message': '✅ Producto agregado al carrito correctamente'})
+    
+    return render_template('carrito/ver_producto.html', dataPro= dataPro,dataexit=dataexit,imagenes=imagenes_validas)
+
+
+
 @bp.route('/carrito/list')
 def listarcarrito():
     dataexit = Carrito.query.filter_by(iduser=current_user.iduser).all()
