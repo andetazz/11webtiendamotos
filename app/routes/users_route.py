@@ -13,7 +13,7 @@ def before_request():
     pass
 # Configuración para la subida de imágenes
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif','jfif','webp','bmp','ico'}
-UPLOAD_FOLDER = os.path.join(os.getcwd(), 'app', 'static\imagenes')  
+UPLOAD_FOLDER = os.path.join(os.getcwd(), 'app', 'static', 'imagenes') 
 
 # Verificar que la carpeta existe, si no, crearla
 if not os.path.exists(UPLOAD_FOLDER):
@@ -133,12 +133,12 @@ def edit(id):
 @bp.route('/editperf/<int:id>', methods=['GET', 'POST'])
 def editperf(id):
     user = Users.query.get_or_404(id)
-    print(user)
-    print("antes del post")
+    print(user, flush=True)
+    print("antes del post", flush=True)
    
     if request.method == 'POST':
-        print(request.files['img1'])
-        print("antes del post--------------------")
+        print(request.files['img1'], flush=True)
+        print("antes del post--------------------", flush=True)
         user.nameuser = request.form['nameuser']
         user.nombre = request.form['nombre']
         user.cedula = request.form['cedula']
