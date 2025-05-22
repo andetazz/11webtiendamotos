@@ -10,7 +10,6 @@ EXPOSE 5000
 
 RUN mkdir -p /initial_static && cp -r /app/app/static/. /initial_static/
 
-
 RUN chmod +x /app/entrypoint.sh
 ENTRYPOINT ["/app/entrypoint.sh"]
 
