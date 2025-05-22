@@ -133,8 +133,12 @@ def edit(id):
 @bp.route('/editperf/<int:id>', methods=['GET', 'POST'])
 def editperf(id):
     user = Users.query.get_or_404(id)
-
+    print(user)
+    print("antes del post")
+   
     if request.method == 'POST':
+        print(request.files['img1'])
+        print("antes del post--------------------")
         user.nameuser = request.form['nameuser']
         user.nombre = request.form['nombre']
         user.cedula = request.form['cedula']
