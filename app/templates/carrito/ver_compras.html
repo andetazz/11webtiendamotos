@@ -1,5 +1,5 @@
 {% extends "baseb.html" %}
-{% block titulo_pagina %}Lista de Compras{% endblock %}
+{% block titulo_pagina %}Lista de Compras <i class="bi bi-bag-check-fill"></i>{% endblock %}
 <style>
   .modal-backdrop.show {
       background-color: rgba(0, 123, 255, 0.3); /* Azul transparente */
@@ -40,9 +40,11 @@
                           {% endif %}
                         </td>
                         <td>
-                          <button type="button" class="btn btn-primary btn-lm mb-1" data-bs-toggle="modal" data-bs-target="#detalleModal{{ itemcarrito.idventa }}">
+                       
+                          <button type="button" class="btn btn-primary" onclick="abrirDetalle('{{ itemcarrito.idventa }}')">
                             Detalle
                           </button>
+
                           <a href="{{ url_for('carrito.imp_fact', id=itemcarrito.idventa) }}" title="Imprimir">
                             <img src="{{ url_for('static', filename='iconos/imprimir.jpg') }}" alt="Imprimir" width="36" height="36">
                           </a>
@@ -70,25 +72,38 @@
     </form>
 </div>
 
-{% for itemcarrito in data %}
-<!-- Modal individual para cada factura -->
-<div class="modal fade" id="detalleModal{{ itemcarrito.idventa }}" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="detalleModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
     <div class="modal-content">
-      <div class="modal-header modal-header-reducido">
-          <h5 class="modal-title">Detalle de la Factura #{{ itemcarrito.idventa }}</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      <div class="modal-header">
+
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
-      <div class="modal-body">
-          <div id="modal-content"></div>
-              {% set datad = itemcarrito.ventas_d %}
-              {% include 'carrito/detalle_venta.html' %}
-          </div>
+      <div class="modal-body" id="detalleModalBody">
+        <div class="text-center">Cargando...</div>
       </div>
     </div>
   </div>
 </div>
-{% endfor %}
+
+<script>
+  function abrirDetalle(idventa) {
+    const modalBody = document.getElementById("detalleModalBody");
+    modalBody.innerHTML = '<div class="text-center">Cargando...</div>';
+    
+    fetch(`/carrito/detalleventa/${idventa}`)
+      .then(response => response.text())
+      .then(html => {
+        modalBody.innerHTML = html;
+        const modal = new bootstrap.Modal(document.getElementById('detalleModal'));
+        modal.show();
+      })
+      .catch(error => {
+        modalBody.innerHTML = `<div class="text-danger">Error cargando detalles</div>`;
+        console.error("Error al cargar detalles:", error);
+      });
+  }
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

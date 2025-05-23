@@ -1,5 +1,5 @@
 {% extends "baseb.html" %}
-{% block titulo_pagina %}Lista de Productos en Carrito{% endblock %}
+{% block titulo_pagina %}Lista de Productos en Carrito   <i class="bi bi-cart"></i> {% endblock %}
 
 {% block content %}
 <div class="container mt-4">
@@ -21,6 +21,7 @@
                         <th>Precio</th>
                         <th>Cantidad</th>
                         <th>Subtotal</th>
+                        <th>acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -66,6 +67,13 @@
                         {% set cantidad = itemcarrito.cantidad or 1 %}
                         <td class="subtotal">
                             ${{ "{:,.0f}".format(precio * cantidad).replace(",", ".") }}
+                        </td>
+                        <td>
+                            <a href="javascript:void(0);"
+                               onclick="confirmarEliminacion('{{ itemcarrito.productos.idproducto }}');"
+                               class="btn btn-sm btn-danger flex-fill mb-1">
+                               <i class="fas fa-trash-alt"></i>
+                            </a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -159,5 +167,23 @@
         });
         actualizarTotales();
     });
+</script>
+<script>
+    function confirmarEliminacion(idProducto) {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: 'Esta acción eliminará el producto permanentemente de su carrito.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#e74c3c',
+            cancelButtonColor: '#3498db',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = `/carrito/delete/${idProducto}`;
+            }
+        });
+    }
 </script>
 {% endblock %}

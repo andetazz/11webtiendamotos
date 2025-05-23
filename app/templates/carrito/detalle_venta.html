@@ -1,7 +1,6 @@
 {% extends "baseb.html" %}
 {% block titulo_pagina %}Detalle de la Compra{% endblock %}
 {% block content %}
-
 <div class="container mt-5">
     {% if datad and datad[0] %}
     <h1>Factura de Venta Nro: {{ datad[0].idventa }}</h1>
@@ -34,7 +33,7 @@
                     <td>{{ item.productos.idproducto }}</td>
                     <td>{{ item.productos.categoria.nombre }}</td>
                     <td>{{ item.productos.nombre }}</td>
-                    <td class="text-success fw-bold">${{ "{:,.0f}".format(item.productos.precio).replace(",", ".") }}</td>
+                    <td class="text-success fw-bold">${{ "{:,.0f}".format(item.precio).replace(",", ".") }}</td>
                     <td>{{ item.cantidad }}</td>
                     <td class="text-danger fw-bold">${{ "{:,.0f}".format(item.descuento).replace(",", ".") }}</td>
                     <td class="text-success fw-bold">${{ "{:,.0f}".format(item.iva).replace(",", ".") }}</td>

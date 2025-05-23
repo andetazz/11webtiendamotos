@@ -33,7 +33,7 @@
                 {% for itemcarrito in data %}
                     {% set ns.total_general = ns.total_general + itemcarrito.total %}
                     <tr>
-                        <td>{{ itemcarrito.iduser }}</td>
+                        <td>{{ itemcarrito.iduser }}/{{ itemcarrito.users.nameuser }}</td>
                         <td>
                           {% if itemcarrito.ventas_d and itemcarrito.ventas_d[0].productos %}
                           <img src="{{ url_for('static', filename='imagenes/' + itemcarrito.ventas_d[0].productos.get_img('img1')) }}"
@@ -54,9 +54,9 @@
                                     <option value="2">Paga</option>
                                     <option value="3">Enviada</option>
                                     <option value="4">Entregada</option>
-                                    <option value="5">En Garantia</option>
                                     <option value="6">Finalizada</option>
                                     <option value="7">Cancelada</option>
+                                    <option value="5">En Garantia</option>
                                 </select>
                             </div>
                          </td>

@@ -293,6 +293,7 @@
                                             if (result.success) {
                                                 alert(result.message);
                                                 modal.hide();
+                                                location.reload(); // 🔁 Recargar la página después de agregar al carrito
                                             } else {
                                                 alert("❌ Error al agregar al carrito");
                                             }

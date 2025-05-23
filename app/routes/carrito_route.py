@@ -77,6 +77,17 @@ def add(id):
     return render_template('carrito/addcarrito.html', dataPro= dataPro,dataexit=dataexit,imagenes=imagenes_validas)
 
 
+@bp.route('/carrito/delete/<int:id>')
+def delete(id):
+    carrito = Carrito.query.filter_by(idproducto=id, iduser=current_user.iduser).first()
+    db.session.delete(carrito)
+    try:
+        db.session.commit()
+        flash("✅ Producto eliminado con éxito del carrito", "success")
+    except:
+        print("Error en la base de datos Eliminar Producto de carrito")
+    return redirect(url_for('carrito.listarcarrito'))
+
 # ver producto
 @bp.route('/carrito/ver_prod/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -125,6 +136,7 @@ def listarcarrito():
 
     return render_template('carrito/ver_carrito.html', data=dataexit)
 
+#funcion para agrupar todos los articulos del carrito
 def obtener_carrito_agrupado():
     """
     Devuelve una lista de diccionarios con:
@@ -143,7 +155,7 @@ def obtener_carrito_agrupado():
         Productos.descuento.label('descuento'),
         Productos.iva.label('iva'),
         func.sum(Carrito.cantidad).label('cantidad'),
-        func.sum(Carrito.iduser).label('cantusu')
+        func.count(Carrito.iduser).label('cantusu')
     ).join(Productos, Carrito.idproducto == Productos.idproducto
     ).group_by(
         Carrito.idproducto,
@@ -287,8 +299,8 @@ def vercompras():
 @bp.route('/carrito/detalleventa/<int:id>', methods=['GET', 'POST'])
 def detalleventa(id):
     dataventas_d = Ventas_d.query.filter_by(idventa=id).all()
-    dataventas_t = Ventas_t.query.filter_by(iduser= current_user.iduser).all()
-    return render_template('carrito/ver_compras.html', datad=dataventas_d, data=dataventas_t)
+    #dataventas_t = Ventas_t.query.filter_by(iduser= current_user.iduser).all()
+    return render_template('carrito/detalle_venta.html', datad=dataventas_d)
 
 @bp.route('/carrito/listar_compra')
 def listar_compras():
@@ -498,7 +510,7 @@ def generar_factura(datos_factura,datacli, dataventas_t, dataventas_d):
     header_data = [
         [
         Paragraph(
-            "<b>TIENDA VIRTUAL CoMpUmOtOs</b><br/>NIT: 1101753808-9<br/>"
+            "NIT: 1101753808-9<br/>"
             "ANDRES PEÑA VELASCO<br/>CARRERA 6 5 A 126<br/>Vélez Santander<br/>"
             "CEL: 304 582 2360<br/>EMAIL: andetazz87@gmail.com",
             estilo_subt),
@@ -515,6 +527,26 @@ def generar_factura(datos_factura,datacli, dataventas_t, dataventas_d):
         ('LINEBELOW', (0,0), (-1,0), 1, colors.black),
         ('BOTTOMPADDING', (0,0), (-1,0), 12),
     ]))
+    estilo_titulo = ParagraphStyle(
+        name='Subtitulo',
+        fontName='Courier-Oblique',
+        fontSize=14,
+        leading=18,
+        textColor=colors.HexColor("#3f88c5"),
+        alignment=TA_CENTER,  # Centrado
+        spaceAfter=10
+    )
+
+    
+    estilo_subt = ParagraphStyle(
+        name='titulos',
+        fontSize=10,
+        leading=18,
+        textColor=colors.blue, 
+        spaceAfter=10
+    )
+
+    story.append(Paragraph( "TIENDA VIRTUAL CoMpUmOtOs ", estilo_titulo))
     story.append(header)
     story.append(Spacer(1, 12))
       # 2. Datos Factura
